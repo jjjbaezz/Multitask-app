@@ -3,16 +3,23 @@
 # dependencies
 node_modules/
 
+.expo-shared/
 # Expo
 .expo/
 dist/
 web-build/
 expo-env.d.ts
-
+.env
+.env*.local
 # Native
 .kotlin/
 *.orig.*
 *.jks
+
+# IDE/editor
+.vscode/
+.idea/
+*.iml
 *.p8
 *.p12
 *.key

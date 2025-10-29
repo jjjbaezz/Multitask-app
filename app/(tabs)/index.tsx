@@ -1,98 +1,140 @@
-import { Image } from 'expo-image';
-import { Platform, StyleSheet } from 'react-native';
+import { StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
+import { useRouter } from 'expo-router';
 
-import { HelloWave } from '@/components/hello-wave';
-import ParallaxScrollView from '@/components/parallax-scroll-view';
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
-import { Link } from 'expo-router';
+import { IconSymbol } from '@/components/ui/icon-symbol';
 
 export default function HomeScreen() {
-  return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
-      headerImage={
-        <Image
-          source={require('@/assets/images/partial-react-logo.png')}
-          style={styles.reactLogo}
-        />
-      }>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Welcome!</ThemedText>
-        <HelloWave />
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 1: Try it</ThemedText>
-        <ThemedText>
-          Edit <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> to see changes.
-          Press{' '}
-          <ThemedText type="defaultSemiBold">
-            {Platform.select({
-              ios: 'cmd + d',
-              android: 'cmd + m',
-              web: 'F12',
-            })}
-          </ThemedText>{' '}
-          to open developer tools.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <Link href="/modal">
-          <Link.Trigger>
-            <ThemedText type="subtitle">Step 2: Explore</ThemedText>
-          </Link.Trigger>
-          <Link.Preview />
-          <Link.Menu>
-            <Link.MenuAction title="Action" icon="cube" onPress={() => alert('Action pressed')} />
-            <Link.MenuAction
-              title="Share"
-              icon="square.and.arrow.up"
-              onPress={() => alert('Share pressed')}
-            />
-            <Link.Menu title="More" icon="ellipsis">
-              <Link.MenuAction
-                title="Delete"
-                icon="trash"
-                destructive
-                onPress={() => alert('Delete pressed')}
-              />
-            </Link.Menu>
-          </Link.Menu>
-        </Link>
+  const router = useRouter();
 
-        <ThemedText>
-          {`Tap the Explore tab to learn more about what's included in this starter app.`}
+  const tools = [
+    { id: 'gender', title: 'Predictor de Género', description: 'Predice el género basado en un nombre', icon: 'person.2.fill', color: '#6366F1' },
+    { id: 'age', title: 'Predictor de Edad', description: 'Determina la edad aproximada', icon: 'calendar', color: '#EF4444' },
+    { id: 'universities', title: 'Universidades', description: 'Busca universidades por país', icon: 'building.2.fill', color: '#10B981' },
+    { id: 'weather', title: 'Clima RD', description: 'Estado del tiempo en República Dominicana', icon: 'cloud.sun.fill', color: '#F59E0B' },
+  ];
+
+  return (
+    <ScrollView style={styles.container}>
+      <ThemedView style={styles.headerContainer}>
+        <ThemedText style={styles.headerEmoji}>🧰</ThemedText>
+        <ThemedText style={styles.subtitle}>
+          Tu caja de herramientas digital con múltiples utilidades
         </ThemedText>
       </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 3: Get a fresh start</ThemedText>
-        <ThemedText>
-          {`When you're ready, run `}
-          <ThemedText type="defaultSemiBold">npm run reset-project</ThemedText> to get a fresh{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> directory. This will move the current{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> to{' '}
-          <ThemedText type="defaultSemiBold">app-example</ThemedText>.
+
+      <ThemedView style={styles.toolsContainer}>
+        <ThemedText type="subtitle" style={styles.sectionTitle}>
+          Herramientas Disponibles
         </ThemedText>
+        
+        {tools.map((tool) => (
+          <TouchableOpacity
+            key={tool.id}
+            style={[styles.toolCard, { borderLeftColor: tool.color }]}
+            onPress={() => router.push(tool.id as any)}
+          >
+            <ThemedView style={[styles.iconContainer, { backgroundColor: tool.color + '20' }]}>
+              <IconSymbol name={tool.icon as any} size={24} color={tool.color} />
+            </ThemedView>
+            <ThemedView style={styles.toolInfo}>
+              <ThemedText type="defaultSemiBold">{tool.title}</ThemedText>
+              <ThemedText style={styles.toolDescription}>{tool.description}</ThemedText>
+            </ThemedView>
+            <IconSymbol name="chevron.right" size={16} color="#666" />
+          </TouchableOpacity>
+        ))}
       </ThemedView>
-    </ParallaxScrollView>
+
+      <ThemedView style={styles.extraContainer}>
+        <ThemedText type="subtitle" style={styles.sectionTitle}>
+          Más Herramientas
+        </ThemedText>
+        <ThemedText style={styles.extraText}>
+          Accede a más funcionalidades desde el menú lateral:
+        </ThemedText>
+        <ThemedView style={styles.extraList}>
+          <ThemedText style={styles.extraItem}>🎮 Pokédex - Información de Pokémon</ThemedText>
+          <ThemedText style={styles.extraItem}>📰 Noticias - Últimas noticias de WordPress</ThemedText>
+          <ThemedText style={styles.extraItem}>👤 Acerca de - Mi informacion</ThemedText>
+        </ThemedView>
+      </ThemedView>
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
-  titleContainer: {
+  container: {
+    flex: 1,
+  },
+  headerContainer: {
+    alignItems: 'center',
+    padding: 20,
+    paddingTop: 40,
+  },
+  headerEmoji: {
+    fontSize: 90,
+    lineHeight: 100,
+    marginBottom: 10,
+  },
+  subtitle: {
+    textAlign: 'center',
+    opacity: 0.7,
+    marginBottom: 30,
+  },
+  toolsContainer: {
+    padding: 20,
+  },
+  sectionTitle: {
+    marginBottom: 15,
+  },
+  toolCard: {
     flexDirection: 'row',
     alignItems: 'center',
+    padding: 15,
+    marginBottom: 12,
+    borderRadius: 12,
+    borderLeftWidth: 4,
+    backgroundColor: '#f8f9fa',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.1,
+    shadowRadius: 3.84,
+    elevation: 5,
+  },
+  iconContainer: {
+    width: 50,
+    height: 50,
+    borderRadius: 25,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginRight: 15,
+  },
+  toolInfo: {
+    flex: 1,
+  },
+  toolDescription: {
+    opacity: 0.6,
+    fontSize: 12,
+    marginTop: 2,
+  },
+  extraContainer: {
+    padding: 20,
+    paddingTop: 0,
+  },
+  extraText: {
+    opacity: 0.7,
+    marginBottom: 15,
+  },
+  extraList: {
     gap: 8,
   },
-  stepContainer: {
-    gap: 8,
-    marginBottom: 8,
-  },
-  reactLogo: {
-    height: 178,
-    width: 290,
-    bottom: 0,
-    left: 0,
-    position: 'absolute',
+  extraItem: {
+    fontSize: 14,
+    opacity: 0.8,
   },
 });

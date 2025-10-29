@@ -4,19 +4,25 @@
     "slug": "Multitask-App",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/icon.png",
+    "icon": "./assets/Mi-foto.png",
     "scheme": "multitaskapp",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
+    "extra": {
+      "WEATHER_API_KEY": "",
+      "router": {},
+      "eas": {
+        "projectId": "d82df22d-dd7d-44aa-8611-4c63b125059a"
+      }
+    },
     "ios": {
       "supportsTablet": true
     },
     "android": {
+      "package": "com.jjjbaezz.multitaskapp",
       "adaptiveIcon": {
         "backgroundColor": "#E6F4FE",
-        "foregroundImage": "./assets/images/android-icon-foreground.png",
-        "backgroundImage": "./assets/images/android-icon-background.png",
-        "monochromeImage": "./assets/images/android-icon-monochrome.png"
+        "foregroundImage": "./assets/Mi-foto.png"
       },
       "edgeToEdgeEnabled": true,
       "predictiveBackGestureEnabled": false
@@ -43,6 +49,7 @@
     "experiments": {
       "typedRoutes": true,
       "reactCompiler": true
-    }
+    },
+    "owner": "jjjbaezz"
   }
 }
